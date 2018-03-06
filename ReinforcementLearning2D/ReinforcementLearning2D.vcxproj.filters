@@ -21,7 +21,10 @@
     <ClCompile Include="src\Robot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\WorldBody.cpp">
+    <ClCompile Include="src\NNetwork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WorldObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
