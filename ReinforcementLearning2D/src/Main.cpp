@@ -6,12 +6,15 @@
 
 #include "WorldObject.h"
 #include "Robot.h"
+#include "Neuron.h"
+#include "Network.h"
 
 #define SCALE 30.f
 
 
 int main(int argc, char** argv)
 {
+
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
 
@@ -36,7 +39,15 @@ int main(int argc, char** argv)
 	wheeloo.addCircleComponent(world, b2_dynamicBody, sf::Color::White, 200.f, 100.f, 120.f);
 	//wheeloo.addRectangleComponent(world, b2_dynamicBody, sf::Color::White, 800.f, 100.f, 120.f);
 
+	//Neural network generation
 
+	
+	std::vector<unsigned> topology;
+	topology.push_back(3);
+	topology.push_back(2);
+	topology.push_back(1);
+	Net myNet(topology);
+	
 	//Simulation
 	float timeStep = 1.f / 30.f;
 	int velocityIterations = 6;
