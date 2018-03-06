@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 
 	//Robot generation
 	Robot wheeloo;
-	wheeloo.addCircleComponent(world, b2_dynamicBody, sf::Color::White, 200.f, 500.f, 120.f);
+	wheeloo.addCircleComponent(world, b2_dynamicBody, sf::Color::White, 200.f, 100.f, 120.f);
 	//wheeloo.addRectangleComponent(world, b2_dynamicBody, sf::Color::White, 800.f, 100.f, 120.f);
 
 
