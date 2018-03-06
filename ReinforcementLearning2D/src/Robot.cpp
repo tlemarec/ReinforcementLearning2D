@@ -1,5 +1,5 @@
+#include <Box2D\Box2D.h>
 #include "Robot.h"
-#include <iostream>
 
 void Robot::addCircleComponent(b2World & world, b2BodyType bodyType, const sf::Color & color, float xPos, float yPos, float radiusInPixels)
 {
@@ -17,6 +17,18 @@ void Robot::addConvexComponent(b2World& world, b2BodyType bodyType, const Convex
 	components.push_back(std::make_shared<RectangleWorldObject>(RectangleWorldObject(world, bodyType, color, xPos, yPos, widthInPixels, heightInPixels)));
 }
 
+b2Body * Robot::getComponent(int i)
+{
+	return components[i]->getPhysicalBody();
+}
+
+//void Robot::setMotor(b2World world, b2Body* bodyA, b2Body* bodyB, b2Vec2 anchorAInPixels, b2Vec2 anchorBInPixels, float referenceAngle)
+//{
+//	//motor = RevoluteJoint(world, bodyA, bodyB, anchorAInPixels, anchorBInPixels, referenceAngle);
+//	RevoluteJoint(motor, world, bodyA, bodyB, anchorAInPixels, anchorBInPixels, referenceAngle);
+//}
+
+
 void Robot::robotPositionUpdate()
 {
 	for (int i(0); i < components.size(); ++i)
@@ -33,7 +45,7 @@ void Robot::robotImageRender(sf::RenderWindow & renderWindow)
 	}
 }
 
-std::vector<float> Robot::getRobotPosition()
+std::vector<float> Robot::getRobotPosition() const
 {
 	b2Vec2 b2VectorPosition = components[0]->getPosition();
 	std::vector<float> vectorPosition(2,0.f);

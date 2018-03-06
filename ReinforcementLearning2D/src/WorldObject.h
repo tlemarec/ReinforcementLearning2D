@@ -1,6 +1,8 @@
 #ifndef WorldObjectHPP
 #define WorldObjectHPP
 
+#include <stdio.h>
+#include <iostream>
 #include <Box2D\Box2D.h>
 #include <SFML\Graphics.hpp>
 
@@ -118,7 +120,7 @@ public:
 		b2FixtureDef fixture;
 		fixture.friction = 0.7f;
 		fixture.restitution = 0.1f;
-		fixture.density = 1.0f;
+		fixture.density = 1000.0f;
 
 		b2PolygonShape bodyShape;
 		bodyShape.SetAsBox(widthInPixels / 2.f / SCALE, heightInPixels / 2.f / SCALE);
