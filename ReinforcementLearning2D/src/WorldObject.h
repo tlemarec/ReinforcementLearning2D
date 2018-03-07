@@ -82,11 +82,12 @@ class CircleWorldObject : public WorldObject
 {
 private:
 	sf::CircleShape renderShape;
+	sf::CircleShape referenceShape;
 public:
 	CircleWorldObject(b2World& world, b2BodyType bodyType, const sf::Color &color = sf::Color::White, float xPos = 0.f, float yPos = 0.f, float radiusInPixels = 30.f) : WorldObject(world, bodyType, xPos, yPos)
 	{
 		b2FixtureDef fixture;
-		fixture.friction = 100.f;
+		fixture.friction = 0.7f;
 		fixture.restitution = 0.1f;
 		fixture.density = 1.0f;
 
@@ -99,9 +100,13 @@ public:
 		renderShape.setOrigin(radiusInPixels / 2.f, radiusInPixels / 2.f);
 		renderShape.setRadius(radiusInPixels / 2.f);
 		renderShape.setPointCount(50);
-		renderShape.setOutlineColor(color);
-		renderShape.setOutlineThickness(-5.f);
 		renderShape.setFillColor(color);
+
+		referenceShape.setOrigin(radiusInPixels / 2.f, radiusInPixels / 2.f -radiusInPixels*0.4f );
+		referenceShape.setRadius(radiusInPixels / 10.f);
+		referenceShape.setPointCount(10);
+		referenceShape.setFillColor(sf::Color::Blue);
+
 		positionUpdate();
 	}
 
@@ -120,7 +125,7 @@ public:
 		b2FixtureDef fixture;
 		fixture.friction = 0.7f;
 		fixture.restitution = 0.1f;
-		fixture.density = 10.0f;
+		fixture.density = 0.0f;
 
 		b2PolygonShape bodyShape;
 		bodyShape.SetAsBox(widthInPixels / 2.f / SCALE, heightInPixels / 2.f / SCALE);

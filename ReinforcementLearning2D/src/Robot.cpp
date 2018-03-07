@@ -17,17 +17,20 @@ void Robot::addConvexComponent(b2World& world, b2BodyType bodyType, const Convex
 	components.push_back(std::make_shared<RectangleWorldObject>(RectangleWorldObject(world, bodyType, color, xPos, yPos, widthInPixels, heightInPixels)));
 }
 
-b2Body * Robot::getComponent(int i)
+b2Body * Robot::getComponentBody(int i)
 {
 	return components[i]->getPhysicalBody();
 }
 
-//void Robot::setMotor(b2World world, b2Body* bodyA, b2Body* bodyB, b2Vec2 anchorAInPixels, b2Vec2 anchorBInPixels, float referenceAngle)
-//{
-//	//motor = RevoluteJoint(world, bodyA, bodyB, anchorAInPixels, anchorBInPixels, referenceAngle);
-//	RevoluteJoint(motor, world, bodyA, bodyB, anchorAInPixels, anchorBInPixels, referenceAngle);
-//}
+void Robot::setMotorComponent(int i)
+{
+	motor = 1;
+}
 
+b2Body * Robot::getMotorBody()
+{
+	return components[motor]->getPhysicalBody();
+}
 
 void Robot::robotPositionUpdate()
 {

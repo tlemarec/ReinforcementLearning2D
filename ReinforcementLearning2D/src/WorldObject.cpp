@@ -33,10 +33,14 @@ void CircleWorldObject::positionUpdate()
 {
 	renderShape.setPosition(physicalBody->GetPosition().x * SCALE, physicalBody->GetPosition().y * SCALE);
 	renderShape.setRotation((physicalBody->GetAngle() * (180.0f / b2_pi)));
+
+	referenceShape.setPosition(physicalBody->GetPosition().x * SCALE, physicalBody->GetPosition().y * SCALE);
+	referenceShape.setRotation((physicalBody->GetAngle() * (180.0f / b2_pi)));
 }
 void CircleWorldObject::imageRender(sf::RenderWindow& renderWindow)
 {
 	renderWindow.draw(renderShape);
+	renderWindow.draw(referenceShape);
 }
 
 //RectangleWorldObject

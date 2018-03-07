@@ -38,30 +38,11 @@ int main(int argc, char** argv)
 	//Robot generation
 	Robot wheeloo;
 	wheeloo.addCircleComponent(world, b2_dynamicBody, sf::Color::White, 200.f, 100.f, 120.f);
-	wheeloo.addRectangleComponent(world, b2_dynamicBody, sf::Color::Black, 800.f, 100.f, 50.f);
 	
-	//motor
-	b2RevoluteJointDef jointDef;
-	jointDef.bodyA = wheeloo.getComponent(0);
-	jointDef.bodyB = wheeloo.getComponent(1);
-	jointDef.collideConnected = false;
-	jointDef.localAnchorA.Set(b2Vec2(0.f, 0.f).x / SCALE, b2Vec2(0.f, 0.f).y / SCALE);
-	jointDef.localAnchorB.Set(b2Vec2(0.f, 0.f).x / SCALE, b2Vec2(0.f, 0.f).y / SCALE);
-	jointDef.referenceAngle = 0.f;
-	jointDef.enableMotor = true;
-	jointDef.maxMotorTorque = 100.0f;
-	jointDef.motorSpeed = -10.0f;
-	b2RevoluteJoint* motor = (b2RevoluteJoint*)world.CreateJoint(&jointDef);
-		
-	motor->SetMotorSpeed(-10.f); //One parameter "float32 speed"
-	float32 speed = motor->GetJointSpeed(); //return float32
+	wheeloo.getMotorBody()->SetAngularVelocity(1.f);
+	wheeloo.getMotorBody()->GetAngularVelocity();
 	
-
-	//wheeloo.addRectangleComponent(world, b2_dynamicBody, sf::Color::White, 800.f, 100.f, 120.f);
-
 	//Neural network generation
-
-
 	std::vector<unsigned> topology;
 	topology.push_back(3);
 	topology.push_back(2);
@@ -69,6 +50,8 @@ int main(int argc, char** argv)
 	Net myNet(topology);
 	
 	//Simulation
+	std::string input = "d";
+	std::cin >> input;
 	float timeStep = 1.f / 60.f;
 	int velocityIterations = 6;
 	int positionIterations = 2;
@@ -88,11 +71,7 @@ int main(int argc, char** argv)
 					window.close();
 			}
 
-			if (i == 60) 
-			{
-				motor->SetMotorSpeed(10.f);
-			}
-			
+
 			ground.positionUpdate();
 			ground.imageRender(window);
 

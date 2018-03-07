@@ -11,9 +11,9 @@ class Robot
 {
 private:
 	std::vector<std::shared_ptr<WorldObject> > components;
+	int motor = 0;
 	
 public:
-	//b2RevoluteJoint* motor;
 
 	Robot() {}
 	
@@ -23,10 +23,12 @@ public:
 
 	void addConvexComponent(b2World& world, b2BodyType bodyType, const ConvexWorldObject::ConvexShape shape = ConvexWorldObject::ConvexShape::EquilateralTriangle, const sf::Color &color = sf::Color::White, float xPos = 0.f, float yPos = 0.f, float widthInPixels = 30.f, float heightInPixels = 30.f);
 
-	b2Body* getComponent(int i);
-	
-	//void setMotor(b2World world, b2Body* bodyA, b2Body* bodyB, b2Vec2 anchorAInPixels, b2Vec2 anchorBInPixels, float referenceAngle = -b2_pi / 2.f);
-	
+	b2Body* getComponentBody(int i);
+
+	void setMotorComponent(int i);
+
+	b2Body* getMotorBody();
+
 	void robotPositionUpdate();
 
 	void robotImageRender(sf::RenderWindow& renderWindow);
