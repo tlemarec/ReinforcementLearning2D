@@ -86,7 +86,7 @@ public:
 	CircleWorldObject(b2World& world, b2BodyType bodyType, const sf::Color &color = sf::Color::White, float xPos = 0.f, float yPos = 0.f, float radiusInPixels = 30.f) : WorldObject(world, bodyType, xPos, yPos)
 	{
 		b2FixtureDef fixture;
-		fixture.friction = 0.7f;
+		fixture.friction = 100.f;
 		fixture.restitution = 0.1f;
 		fixture.density = 1.0f;
 
@@ -120,7 +120,7 @@ public:
 		b2FixtureDef fixture;
 		fixture.friction = 0.7f;
 		fixture.restitution = 0.1f;
-		fixture.density = 1000.0f;
+		fixture.density = 10.0f;
 
 		b2PolygonShape bodyShape;
 		bodyShape.SetAsBox(widthInPixels / 2.f / SCALE, heightInPixels / 2.f / SCALE);

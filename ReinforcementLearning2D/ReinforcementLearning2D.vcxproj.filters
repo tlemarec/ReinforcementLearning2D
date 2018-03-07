@@ -27,10 +27,10 @@
     <ClCompile Include="src\NNetwork.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Neuron.cpp">
+    <ClCompile Include="src\Network.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Network.cpp">
+    <ClCompile Include="src\Neuron.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +44,10 @@
     <ClInclude Include="src\JointFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Neuron.h">
+    <ClInclude Include="src\Network.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Network.h">
+    <ClInclude Include="src\Neuron.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

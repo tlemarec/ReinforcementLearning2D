@@ -88,7 +88,7 @@ int main(int argc, char** argv)
 					window.close();
 			}
 
-			if (i == 30) 
+			if (i == 60) 
 			{
 				motor->SetMotorSpeed(10.f);
 			}

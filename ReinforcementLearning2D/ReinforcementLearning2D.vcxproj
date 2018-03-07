@@ -147,12 +147,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\NNetwork.cpp" />
+    <ClCompile Include="src\Network.cpp" />
+    <ClCompile Include="src\Neuron.cpp" />
     <ClCompile Include="src\Robot.cpp" />
     <ClCompile Include="src\WorldObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\JointFactory.h" />
+    <ClInclude Include="src\Network.h" />
+    <ClInclude Include="src\Neuron.h" />
     <ClInclude Include="src\Robot.h" />
     <ClInclude Include="src\WorldObject.h" />
   </ItemGroup>
