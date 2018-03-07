@@ -11,6 +11,22 @@ void Net::getResults(std::vector<double> &resultVals) const
 	}
 }
 
+int Net::getReward(float robotAngularVelocity)
+{
+	if (robotAngularVelocity < 0.95f)
+	{
+		return robotAngularVelocity - 0.95f;
+	}
+	if (robotAngularVelocity > 1.05f)
+	{
+		return -1 * (robotAngularVelocity - 1.05f);
+	}
+	else
+	{
+		return 10;
+	}
+}
+
 Net::Net(const std::vector<unsigned> &topology)
 {
 	unsigned numLayers = topology.size();

@@ -44,14 +44,16 @@ int main(int argc, char** argv)
 	
 	//Neural network generation
 	std::vector<unsigned> topology;
-	topology.push_back(3);
+	topology.push_back(1);
 	topology.push_back(2);
 	topology.push_back(1);
 	Net myNet(topology);
+
+	std::vector<double> netInputVal;
+	netInputVal.push_back(double(wheeloo.getMotorBody()->GetAngularVelocity()));
+	//myNet.feedForward(netInputVal);
 	
 	//Simulation
-	std::string input = "d";
-	std::cin >> input;
 	float timeStep = 1.f / 60.f;
 	int velocityIterations = 6;
 	int positionIterations = 2;
