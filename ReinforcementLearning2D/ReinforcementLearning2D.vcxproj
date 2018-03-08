@@ -158,7 +158,6 @@
     <ClCompile Include="src\WorldObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ShowData.h" />
     <ClInclude Include="src\JointFactory.h" />
     <ClInclude Include="src\Network.h" />
     <ClInclude Include="src\Neuron.h" />

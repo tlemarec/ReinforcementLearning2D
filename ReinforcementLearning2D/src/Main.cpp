@@ -2,6 +2,7 @@
 #include <Box2D\Box2D.h>
 #include <SFML\Graphics.hpp>
 #include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
 
 #include "WorldObject.h"
@@ -38,25 +39,25 @@ int main(int argc, char** argv)
 
 	//Robot generation
 	Robot wheeloo;
-	wheeloo.addCircleComponent(world, b2_dynamicBody, sf::Color::White, 400.f, 100.f, 120.f);
+	wheeloo.addCircleComponent(world, b2_dynamicBody, sf::Color::White, 100.f, 900.f, 120.f);
+	wheeloo.addRectangleComponent(world, b2_staticBody, sf::Color::White, 800.f, 800.f, 10.f, 50.f);
 	
-	wheeloo.getMotorBody()->SetAngularVelocity(-10.f);
+	wheeloo.getMotorBody()->SetAngularVelocity(0.f);
 	
 	//*********************************************************************************************
 	vector<unsigned> topology;
-	topology.push_back(1);
 	topology.push_back(2);
+	topology.push_back(3);
 	topology.push_back(1);
 	Net myNet(topology);
 
-	vector<double> inputVals(1), targetVals(1), resultVals(1);
-	targetVals[0] = double(1);
+	vector<double> inputVals(2), targetVals(1), resultVals(1);
 	int trainingPass = 0;
 	
 	//*********************************************************************************************
 
 	//Simulation
-	float timeStep = 1.f / 120.f;
+	float timeStep = 1.f / 30.f;
 	int velocityIterations = 6;
 	int positionIterations = 2;
 	while (window.isOpen())
@@ -86,29 +87,30 @@ int main(int argc, char** argv)
 			//*********************************************************************************************
 			
 			++trainingPass;
-			cout << endl << "Pass" << trainingPass;
+			//cout << endl << "Pass" << trainingPass;
 
 			// Get new input data and feed it forward:
 			inputVals[0] = double(wheeloo.getMotorBody()->GetAngularVelocity());
+			inputVals[1] = double((wheeloo.getMotorBody()->GetPosition()).x*SCALE);
 			if (inputVals.size() != topology[0])
 				break;
-			showVectorVals(": Inputs :", inputVals);
+			//showVectorVals(": Inputs :", inputVals);
 			myNet.feedForward(inputVals);
 
 			// Collect the net's actual results:
 			myNet.getResults(resultVals);
-			showVectorVals("Outputs:", resultVals);
+			//showVectorVals("Outputs:", resultVals);
 
-			// Train the net what the outputs should have been:
-			//targetVals[0] = 1;
-			showVectorVals("Targets:", targetVals);
+			// Train the net what the outputs should have been: (x > 0) - (x < 0)
+			targetVals[0] = double(((800 - inputVals[1] > 0) - (800 - inputVals[1] < 0))*abs(800 - inputVals[1])/800);
+			//showVectorVals("Targets:", targetVals);
 			assert(targetVals.size() == topology.back());
 
 			myNet.backProp(targetVals);
 
 			// Report how well the training is working, average over recnet
-			cout << "Net recent average error: "
-				<< myNet.getRecentAverageError() << endl;
+			//cout << "Net recent average error: "
+				//<< myNet.getRecentAverageError() << endl;
 			
 			//*********************************************************************************************
 			wheeloo.getMotorBody()->SetAngularVelocity(float(resultVals[0]));
