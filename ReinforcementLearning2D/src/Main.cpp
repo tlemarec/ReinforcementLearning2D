@@ -9,8 +9,8 @@
 #include "Robot.h"
 #include "JointFactory.h"
 #include "Network.h"
-#include "ShowData.h"
-#include "TrainingData.h"
+#include "NetworkDataOutput.h"
+#include "NetworkInterface.h"
 
 #define SCALE 30.f
 
@@ -34,17 +34,15 @@ int main(int argc, char** argv)
 	//Box2d World generation
 	b2Vec2 gravity(0.f, 10.f);
 	b2World world(gravity);
-
 	RectangleWorldObject ground(world, b2_staticBody, sf::Color::White, screenWidth / 4.f, screenHeight / 2.f, screenWidth / 2.f, 50.f);
 
 	//Robot generation
 	Robot wheeloo;
 	wheeloo.addCircleComponent(world, b2_dynamicBody, sf::Color::White, 100.f, 900.f, 120.f);
 	wheeloo.addRectangleComponent(world, b2_staticBody, sf::Color::White, 800.f, 800.f, 10.f, 50.f);
-	
 	wheeloo.getMotorBody()->SetAngularVelocity(0.f);
 	
-	//*********************************************************************************************
+	//Instanciate Neural Network
 	vector<unsigned> topology;
 	topology.push_back(2);
 	topology.push_back(3);
@@ -53,14 +51,16 @@ int main(int argc, char** argv)
 
 	vector<double> inputVals(2), targetVals(1), resultVals(1);
 	int trainingPass = 0;
-	
-	//*********************************************************************************************
+
+	//Create output file to store learning data
+	std::ofstream outputFile("DataOutput.txt", ios::out);
+	assert(outputFile.is_open());
 
 	//Simulation
 	float timeStep = 1.f / 30.f;
 	int velocityIterations = 6;
 	int positionIterations = 2;
-	while (window.isOpen())
+	while (window.isOpen() && trainingPass < 200)
 	{
 
 		for (int i = 0; i < 60; ++i)
@@ -75,48 +75,40 @@ int main(int argc, char** argv)
 				if (event.type == sf::Event::Closed)
 					window.close();
 			}
-
 			ground.positionUpdate();
 			ground.imageRender(window);
-
 			wheeloo.robotPositionUpdate();
 			wheeloo.robotImageRender(window);
-
 			window.display();
 			
-			//*********************************************************************************************
-			
+			//Neural Network learning 
 			++trainingPass;
-			//cout << endl << "Pass" << trainingPass;
-
+			
 			// Get new input data and feed it forward:
 			inputVals[0] = double(wheeloo.getMotorBody()->GetAngularVelocity());
 			inputVals[1] = double((wheeloo.getMotorBody()->GetPosition()).x*SCALE);
 			if (inputVals.size() != topology[0])
 				break;
-			//showVectorVals(": Inputs :", inputVals);
 			myNet.feedForward(inputVals);
 
 			// Collect the net's actual results:
 			myNet.getResults(resultVals);
-			//showVectorVals("Outputs:", resultVals);
-
+			
 			// Train the net what the outputs should have been: (x > 0) - (x < 0)
 			targetVals[0] = double(((800 - inputVals[1] > 0) - (800 - inputVals[1] < 0))*abs(800 - inputVals[1])/800);
-			//showVectorVals("Targets:", targetVals);
 			assert(targetVals.size() == topology.back());
 
 			myNet.backProp(targetVals);
 
-			// Report how well the training is working, average over recnet
-			//cout << "Net recent average error: "
-				//<< myNet.getRecentAverageError() << endl;
+			//Store learning data
+			dataOutput(outputFile, myNet, trainingPass, inputVals, resultVals, targetVals);
 			
-			//*********************************************************************************************
+			//Use Neural Network output
 			wheeloo.getMotorBody()->SetAngularVelocity(float(resultVals[0]));
 		}
 	}
 
+	outputFile.close();
 	std::cin.get();
 	return EXIT_SUCCESS;
 }

@@ -30,7 +30,7 @@
     <ClCompile Include="src\Network.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TrainingData.cpp">
+    <ClCompile Include="src\NetworkInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,13 +47,13 @@
     <ClInclude Include="src\Neuron.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TrainingData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ShowData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Network.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NetworkDataOutput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NetworkInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "trainingdata.h"
+#include "NetworkInterface.h"
 
 void TrainingData::getTopology(vector<unsigned> &topology)
 {
