@@ -8,8 +8,7 @@ using namespace std;
 void TrainingPass(int* m_trainingPassCount, Net* m_myNet, vector<unsigned>* m_netTopology, vector<double>* m_inputVals, vector<double>* m_targetVals, vector<double>* m_resultVals, ostream& m_outputFile)
 {
 	(*m_trainingPassCount)++;
-	cout << *m_trainingPassCount << endl;
-
+	
 	// Get new input data and feed it forward:
 	assert(m_inputVals->size() == (*m_netTopology)[0]);
 	m_myNet->feedForward(*m_inputVals);

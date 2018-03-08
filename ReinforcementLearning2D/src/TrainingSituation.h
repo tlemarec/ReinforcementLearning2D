@@ -44,14 +44,14 @@ void situationRobotSetup(int* m_situation, Robot* m_robot, b2World* m_world, int
 	}
 	case 2:
 	{
-		m_robot->addCircleComponent(*m_world, b2_dynamicBody, sf::Color::White, 100.f, 900.f, 120.f);
-		m_robot->addRectangleComponent(*m_world, b2_staticBody, sf::Color::White, 800.f, 800.f, 10.f, 50.f);
+		m_robot->addCircleComponent(*m_world, b2_dynamicBody, sf::Color::White, 100.f, m_screenHeight / 2.f - 300, 120.f);
+		m_robot->addRectangleComponent(*m_world, b2_staticBody, sf::Color::White, m_screenWidth / 4.f, m_screenHeight / 2.f - 300, 10.f, 50.f);
 		break;
 	}
 	}
 
 	// Add ground
-	m_robot->addRectangleComponent(*m_world, b2_staticBody, sf::Color::White, m_screenWidth / 4.f, m_screenHeight / 2.f, m_screenWidth / 2.f, 50.f); 
+	m_robot->addRectangleComponent(*m_world, b2_staticBody, sf::Color::White, m_screenWidth / 4.f, m_screenHeight / 2.f, m_screenWidth, 50.f); 
 }
 
 void situationTopologySetup(int* m_situation, vector<unsigned>* m_netTopology, int* m_trainingPassCap)
@@ -74,7 +74,7 @@ void situationTopologySetup(int* m_situation, vector<unsigned>* m_netTopology, i
 	}
 }
 
-void situationTrainingData(int* m_situation, vector<double>* m_inputVals, vector<double>* m_targetVals, vector<double>* m_resultVals, Robot* m_robot)
+void situationTrainingData(int* m_situation, vector<double>* m_inputVals, vector<double>* m_targetVals, vector<double>* m_resultVals, Robot* m_robot, int* m_screenWidth)
 {
 	switch (*m_situation)
 	{
@@ -88,7 +88,7 @@ void situationTrainingData(int* m_situation, vector<double>* m_inputVals, vector
 	case 2:
 	{
 		(*m_inputVals)[1] = double((m_robot->getMotorBody()->GetPosition()).x*SCALE);
-		(*m_targetVals)[0] = double(((800 - (*m_inputVals)[1] > 0) - (800 - (*m_inputVals)[1] < 0))*abs(800 - (*m_inputVals)[1]) / 800);
+		(*m_targetVals)[0] = double((((*m_screenWidth / 4.f) - (*m_inputVals)[1] > 0) - ((*m_screenWidth / 4.f) - (*m_inputVals)[1] < 0))*abs((*m_screenWidth / 4.f) - (*m_inputVals)[1]) / 800);
 		break;
 	}
 	}

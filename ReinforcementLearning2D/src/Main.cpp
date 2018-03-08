@@ -23,6 +23,7 @@ int main(int argc, char** argv)
 	::SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE);
 	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+	cout << screenWidth << endl;
 	
 	// SFML Window
 	sf::RenderWindow window(sf::VideoMode(screenWidth / 2, screenHeight / 2), "SFML Render.");
@@ -78,7 +79,7 @@ int main(int argc, char** argv)
 			window.display();
 
 			// Get new input value et set target value
-			situationTrainingData(&situation, &inputVals, &targetVals, &resultVals, &wheeloo);
+			situationTrainingData(&situation, &inputVals, &targetVals, &resultVals, &wheeloo, &screenWidth);
 
 			// Feed the Network and collet the result
 			TrainingPass(&trainingPassCount, &myNet, &topology, &inputVals, &targetVals, &resultVals, outputFile);
