@@ -38,13 +38,25 @@ int main(int argc, char** argv)
 
 	//Robot generation
 	Robot wheeloo;
-	wheeloo.addCircleComponent(world, b2_dynamicBody, sf::Color::White, 200.f, 100.f, 120.f);
+	wheeloo.addCircleComponent(world, b2_dynamicBody, sf::Color::White, 400.f, 100.f, 120.f);
 	
-	wheeloo.getMotorBody()->SetAngularVelocity(1.f);
-	wheeloo.getMotorBody()->GetAngularVelocity();
+	wheeloo.getMotorBody()->SetAngularVelocity(-10.f);
 	
+	//*********************************************************************************************
+	vector<unsigned> topology;
+	topology.push_back(1);
+	topology.push_back(2);
+	topology.push_back(1);
+	Net myNet(topology);
+
+	vector<double> inputVals(1), targetVals(1), resultVals(1);
+	targetVals[0] = double(1);
+	int trainingPass = 0;
+	
+	//*********************************************************************************************
+
 	//Simulation
-	float timeStep = 1.f / 60.f;
+	float timeStep = 1.f / 120.f;
 	int velocityIterations = 6;
 	int positionIterations = 2;
 	while (window.isOpen())
@@ -70,6 +82,36 @@ int main(int argc, char** argv)
 			wheeloo.robotImageRender(window);
 
 			window.display();
+			
+			//*********************************************************************************************
+			
+			++trainingPass;
+			cout << endl << "Pass" << trainingPass;
+
+			// Get new input data and feed it forward:
+			inputVals[0] = double(wheeloo.getMotorBody()->GetAngularVelocity());
+			if (inputVals.size() != topology[0])
+				break;
+			showVectorVals(": Inputs :", inputVals);
+			myNet.feedForward(inputVals);
+
+			// Collect the net's actual results:
+			myNet.getResults(resultVals);
+			showVectorVals("Outputs:", resultVals);
+
+			// Train the net what the outputs should have been:
+			//targetVals[0] = 1;
+			showVectorVals("Targets:", targetVals);
+			assert(targetVals.size() == topology.back());
+
+			myNet.backProp(targetVals);
+
+			// Report how well the training is working, average over recnet
+			cout << "Net recent average error: "
+				<< myNet.getRecentAverageError() << endl;
+			
+			//*********************************************************************************************
+			wheeloo.getMotorBody()->SetAngularVelocity(float(resultVals[0]));
 		}
 	}
 

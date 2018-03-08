@@ -154,6 +154,7 @@
     <ClCompile Include="src\Network.cpp" />
     <ClCompile Include="src\Neuron.cpp" />
     <ClCompile Include="src\Robot.cpp" />
+    <ClCompile Include="src\TrainingData.cpp" />
     <ClCompile Include="src\WorldObject.cpp" />
   </ItemGroup>
   <ItemGroup>
