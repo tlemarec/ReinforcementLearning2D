@@ -3,6 +3,21 @@
 double Neuron::eta = 0.7; // overall net learning rate
 double Neuron::alpha = 0.1; // momentum, multiplier of last deltaWeight, [0.0..n]
 
+void Neuron::keepOldWeights()
+{
+	for (unsigned numOutput = 0; numOutput < m_outputWeights.size(); ++numOutput) {
+		m_outputWeights[numOutput].weight = m_outputWeights[numOutput].oldWeight;
+	}
+}
+
+void Neuron::gradientStochastic()
+{
+	for (unsigned numOutput = 0; numOutput < m_outputWeights.size(); ++numOutput) {
+		m_outputWeights[numOutput].oldWeight = m_outputWeights[numOutput].weight;
+		m_outputWeights[numOutput].weight += (double(0.5) - rand() / double(RAND_MAX)) / 100; //modify this line to change the impact of random weight
+	}
+}
+
 void Neuron::updateInputWeights(Layer &prevLayer)
 {
 	// The weights to be updated are in the Connection container

@@ -20,6 +20,10 @@ public:
 	void backProp(const vector<double> &targetVals);
 	void getResults(vector<double> &resultVals) const;
 	double getRecentAverageError(void) const { return m_recentAverageError; }
+	void gradientStochastic();
+	void gradientStochastic();
+	void keepOldWeights();
+
 
 private:
 	vector<Layer> m_layers; //m_layers[layerNum][neuronNum]
