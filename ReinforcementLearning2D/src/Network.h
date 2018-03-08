@@ -4,24 +4,30 @@
 #include <vector>
 #include <iostream>
 #include <cstdlib>
+#include <cassert>
 #include <cmath>
+using namespace std;
+
 #include "Neuron.h"
 
-typedef std::vector<Neuron> Layer;
+typedef vector<Neuron> Layer;
 
 class Net
 {
 public:
-	Net(const std::vector<unsigned> &topology);
-	void feedForward(const std::vector<double> &inputVals);
-	void backProp(const std::vector<double> &targetVals);
-	void getResults(std::vector<double> &resultVals) const;
-	int getReward(float state);
+	Net(const vector<unsigned> &topology);
+	void feedForward(const vector<double> &inputVals);
+	void backProp(const vector<double> &targetVals);
+	void getResults(vector<double> &resultVals) const;
+	double getRecentAverageError(void) const { return m_recentAverageError; }
+
 private:
-	std::vector<Layer> m_layers; // m_layers[layerNum][neuronneNum]
+	vector<Layer> m_layers; //m_layers[layerNum][neuronNum]
 	double m_error;
 	double m_recentAverageError;
-	double m_recentAverageSmoothingFactor;
+	static double m_recentAverageSmoothingFactor;
 };
 
-#endif
+
+#endif // NETWORKFPP
+

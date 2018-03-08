@@ -6,9 +6,10 @@
 
 #include "WorldObject.h"
 #include "Robot.h"
-#include "Neuron.h"
-#include "Network.h"
 #include "JointFactory.h"
+#include "Network.h"
+#include "ShowData.h"
+#include "TrainingData.h"
 
 #define SCALE 30.f
 
@@ -42,17 +43,6 @@ int main(int argc, char** argv)
 	wheeloo.getMotorBody()->SetAngularVelocity(1.f);
 	wheeloo.getMotorBody()->GetAngularVelocity();
 	
-	//Neural network generation
-	std::vector<unsigned> topology;
-	topology.push_back(1);
-	topology.push_back(2);
-	topology.push_back(1);
-	Net myNet(topology);
-
-	std::vector<double> netInputVal;
-	netInputVal.push_back(double(wheeloo.getMotorBody()->GetAngularVelocity()));
-	//myNet.feedForward(netInputVal);
-	
 	//Simulation
 	float timeStep = 1.f / 60.f;
 	int velocityIterations = 6;
@@ -72,7 +62,6 @@ int main(int argc, char** argv)
 				if (event.type == sf::Event::Closed)
 					window.close();
 			}
-
 
 			ground.positionUpdate();
 			ground.imageRender(window);

@@ -157,10 +157,13 @@
     <ClCompile Include="src\WorldObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ShowData.h" />
     <ClInclude Include="src\JointFactory.h" />
     <ClInclude Include="src\Network.h" />
     <ClInclude Include="src\Neuron.h" />
     <ClInclude Include="src\Robot.h" />
+    <ClInclude Include="src\ShowData.h" />
+    <ClInclude Include="src\TrainingData.h" />
     <ClInclude Include="src\WorldObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
