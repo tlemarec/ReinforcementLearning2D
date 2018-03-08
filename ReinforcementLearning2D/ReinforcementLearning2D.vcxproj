@@ -163,6 +163,7 @@
     <ClInclude Include="src\Robot.h" />
     <ClInclude Include="src\NetworkDataOutput.h" />
     <ClInclude Include="src\NetworkInterface.h" />
+    <ClInclude Include="src\TrainingSituation.h" />
     <ClInclude Include="src\WorldObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
