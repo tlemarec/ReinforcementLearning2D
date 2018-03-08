@@ -24,6 +24,7 @@ public:
 	void calcOutputGradients(double targetVals);
 	void calcHiddenGradients(const Layer &nextLayer);
 	void updateInputWeights(Layer &prevLayer);
+	void gradientStochastic();
 private:
 	static double eta; // [0.0...1.0] overall net training rate
 	static double alpha; // [0.0...n] multiplier of last weight change [momentum]

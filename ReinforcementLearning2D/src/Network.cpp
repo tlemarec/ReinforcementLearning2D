@@ -2,15 +2,17 @@
 
 double Net::m_recentAverageSmoothingFactor = 100.0; // Number of training samples to average over
 
-void Net::getResults(vector<double> &resultVals) const
-{
-	resultVals.clear();
 
-	for (unsigned n = 0; n < m_layers.back().size() - 1; ++n)
-	{
-		resultVals.push_back(m_layers.back()[n].getOutputVal());
+void Net::gradientStochastic()
+{
+	for (unsigned numLayer = 0; numLayer < m_layers.size() - 1; ++numLayer) {
+		for (unsigned numNeuron = 0; numNeuron < m_layers[numLayer].size() - 1; ++numNeuron) {
+			m_layers[numLayer][numNeuron].gradientStochastic();
+		}
+
 	}
 }
+
 
 void Net::backProp(const std::vector<double> &targetVals)
 {
@@ -63,6 +65,16 @@ void Net::backProp(const std::vector<double> &targetVals)
 		{
 			layer[n].updateInputWeights(prevLayer);
 		}
+	}
+}
+
+void Net::getResults(vector<double> &resultVals) const
+{
+	resultVals.clear();
+
+	for (unsigned n = 0; n < m_layers.back().size() - 1; ++n)
+	{
+		resultVals.push_back(m_layers.back()[n].getOutputVal());
 	}
 }
 
