@@ -44,9 +44,6 @@
     <ClInclude Include="src\JointFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShowData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Neuron.h">
       <Filter>Header Files</Filter>
     </ClInclude>

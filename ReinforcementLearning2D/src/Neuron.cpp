@@ -1,7 +1,7 @@
 #include "Neuron.h"
 
-double Neuron::eta = 0.15; // overall net learning rate
-double Neuron::alpha = 0.5; // momentum, multiplier of last deltaWeight, [0.0..n]
+double Neuron::eta = 0.7; // overall net learning rate
+double Neuron::alpha = 0.1; // momentum, multiplier of last deltaWeight, [0.0..n]
 
 void Neuron::gradientStochastic()
 {
