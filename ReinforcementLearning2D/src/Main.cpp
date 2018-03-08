@@ -43,14 +43,11 @@ int main(int argc, char** argv)
 	wheeloo.getMotorBody()->SetAngularVelocity(0.f);
 	
 	//Instanciate Neural Network
-	vector<unsigned> topology;
-	topology.push_back(2);
-	topology.push_back(3);
-	topology.push_back(1);
+	std::vector<unsigned> topology { 1,3,1 };
 	Net myNet(topology);
 
-	vector<double> inputVals(2), targetVals(1), resultVals(1);
-	int trainingPass = 0;
+	vector<double> inputVals(topology[0]), targetVals(topology.back()), resultVals(topology.back());
+	int trainingPassCount = 0;
 
 	//Create output file to store learning data
 	std::ofstream outputFile("DataOutput.txt", ios::out);
@@ -60,7 +57,7 @@ int main(int argc, char** argv)
 	float timeStep = 1.f / 30.f;
 	int velocityIterations = 6;
 	int positionIterations = 2;
-	while (window.isOpen() && trainingPass < 200)
+	while (window.isOpen() && trainingPassCount < 200)
 	{
 
 		for (int i = 0; i < 60; ++i)
@@ -81,34 +78,23 @@ int main(int argc, char** argv)
 			wheeloo.robotImageRender(window);
 			window.display();
 			
-			//Neural Network learning 
-			++trainingPass;
-			
 			// Get new input data and feed it forward:
-			inputVals[0] = double(wheeloo.getMotorBody()->GetAngularVelocity());
-			inputVals[1] = double((wheeloo.getMotorBody()->GetPosition()).x*SCALE);
-			if (inputVals.size() != topology[0])
-				break;
-			myNet.feedForward(inputVals);
-
-			// Collect the net's actual results:
-			myNet.getResults(resultVals);
 			
-			// Train the net what the outputs should have been: (x > 0) - (x < 0)
-			targetVals[0] = double(((800 - inputVals[1] > 0) - (800 - inputVals[1] < 0))*abs(800 - inputVals[1])/800);
-			assert(targetVals.size() == topology.back());
+			inputVals[0] = double(wheeloo.getMotorBody()->GetAngularVelocity());
+			//inputVals[1] = double((wheeloo.getMotorBody()->GetPosition()).x*SCALE);
+			
+			//(*m_targetVals)[0] = double(((800 - (*m_inputVals)[1] > 0) - (800 - (*m_inputVals)[1] < 0))*abs(800 - (*m_inputVals)[1]) / 800);
+			targetVals[0] = 1;
 
-			myNet.backProp(targetVals);
 
-			//Store learning data
-			dataOutput(outputFile, myNet, trainingPass, inputVals, resultVals, targetVals);
+			TrainingPass(&trainingPassCount, &myNet, &topology, &inputVals, &targetVals, &resultVals, outputFile);
 			
 			//Use Neural Network output
 			wheeloo.getMotorBody()->SetAngularVelocity(float(resultVals[0]));
 		}
 	}
-
 	outputFile.close();
+	cout << "Simulation finished, 'ReinforcementLearning2D\ReinforcementLearning2D\DataOutput.txt' generated. \nPress Enter to end. " << endl;
 	std::cin.get();
 	return EXIT_SUCCESS;
 }

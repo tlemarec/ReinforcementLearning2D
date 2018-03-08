@@ -21,7 +21,6 @@ public:
 	void getResults(vector<double> &resultVals) const;
 	double getRecentAverageError(void) const { return m_recentAverageError; }
 	void gradientStochastic();
-	void gradientStochastic();
 	void keepOldWeights();
 
 
