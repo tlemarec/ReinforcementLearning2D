@@ -9,6 +9,7 @@ struct Connection
 {
 	double weight;
 	double deltaWeight;
+	double oldWeight;
 };
 
 class Neuron;
@@ -25,6 +26,7 @@ public:
 	void calcHiddenGradients(const Layer &nextLayer);
 	void updateInputWeights(Layer &prevLayer);
 	void gradientStochastic();
+	void keepOldWeights();
 private:
 	static double eta; // [0.0...1.0] overall net training rate
 	static double alpha; // [0.0...n] multiplier of last weight change [momentum]

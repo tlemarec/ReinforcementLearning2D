@@ -39,8 +39,8 @@ int main(int argc, char** argv)
 
 	//Robot generation
 	Robot wheeloo;
-	wheeloo.addCircleComponent(world, b2_dynamicBody, sf::Color::White, 100.f, 900.f, 120.f);
-	wheeloo.addRectangleComponent(world, b2_staticBody, sf::Color::White, 800.f, 800.f, 10.f, 50.f);
+	wheeloo.addCircleComponent(world, b2_dynamicBody, sf::Color::White, 400.f, 300.f, 120.f);
+	wheeloo.addRectangleComponent(world, b2_staticBody, sf::Color::White, 100.f, 300.f, 10.f, 50.f);
 	
 	wheeloo.getMotorBody()->SetAngularVelocity(0.f);
 	
