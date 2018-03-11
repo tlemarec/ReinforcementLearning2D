@@ -2,25 +2,51 @@
 
 double Net::m_recentAverageSmoothingFactor = 100.0; // Number of training samples to average over
 
-void Net::keepOldWeights()
+
+Net::Net(const vector<unsigned> &topology)
 {
-	for (unsigned numLayer = 0; numLayer < m_layers.size(); ++numLayer) {
-		for (unsigned numNeuron = 0; numNeuron < m_layers[numLayer].size(); ++numNeuron) {
-			m_layers[numLayer][numNeuron].keepOldWeights();
+	//Topology = {number of neuron in 1st layer, number of neuron in 2nd layer, ... , number of neuron in last layer}
+
+
+	unsigned numLayers = topology.size();
+	for (unsigned layerNum = 0; layerNum < numLayers; ++layerNum) {
+		m_layers.push_back(Layer());
+		// numOutputs of layer[i] is the numInputs of layer[i+1]
+		// numOutputs of last layer is 0
+		unsigned numOutputs = layerNum == topology.size() - 1 ? 0 : topology[layerNum + 1];
+
+		// We have made a new Layer, now fill it with neurons, and
+		// add a bias neuron to the layer:
+		for (unsigned neuronNum = 0; neuronNum <= topology[layerNum]; ++neuronNum) {
+			m_layers.back().push_back(Neuron(numOutputs, neuronNum));
+			cout << "Made a Neuron!" << endl;
 		}
 
+		// Force the bias node's output value to 1.0. It's the last neuron created above
+		m_layers.back().back().setOutputVal(1.0);
 	}
 }
 
-void Net::gradientStochastic()
-{
-	for (unsigned numLayer = 0; numLayer < m_layers.size() - 1; ++numLayer) {
-		for (unsigned numNeuron = 0; numNeuron < m_layers[numLayer].size() - 1; ++numNeuron) {
-			m_layers[numLayer][numNeuron].gradientStochastic();
-		}
 
+void Net::feedForward(const vector<double> &inputVals)
+{
+	// Check the num of inputVals euqal to neuronnum expect bias
+	assert(inputVals.size() == m_layers[0].size() - 1);
+
+	// Assign {latch} the input values into the input neurons
+	for (unsigned i = 0; i < inputVals.size(); ++i) {
+		m_layers[0][i].setOutputVal(inputVals[i]);
+	}
+
+	// Forward propagate
+	for (unsigned layerNum = 1; layerNum < m_layers.size(); ++layerNum) {
+		Layer &prevLayer = m_layers[layerNum - 1];
+		for (unsigned n = 0; n < m_layers[layerNum].size() - 1; ++n) {
+			m_layers[layerNum][n].feedForward(prevLayer);
+		}
 	}
 }
+
 
 void Net::backProp(const std::vector<double> &targetVals)
 {
@@ -76,6 +102,7 @@ void Net::backProp(const std::vector<double> &targetVals)
 	}
 }
 
+
 void Net::getResults(vector<double> &resultVals) const
 {
 	resultVals.clear();
@@ -86,41 +113,26 @@ void Net::getResults(vector<double> &resultVals) const
 	}
 }
 
-void Net::feedForward(const vector<double> &inputVals)
+
+void Net::gradientStochastic(double learningRate)
 {
-	// Check the num of inputVals euqal to neuronnum expect bias
-	assert(inputVals.size() == m_layers[0].size() - 1);
-
-	// Assign {latch} the input values into the input neurons
-	for (unsigned i = 0; i < inputVals.size(); ++i) {
-		m_layers[0][i].setOutputVal(inputVals[i]);
-	}
-
-	// Forward propagate
-	for (unsigned layerNum = 1; layerNum < m_layers.size(); ++layerNum) {
-		Layer &prevLayer = m_layers[layerNum - 1];
-		for (unsigned n = 0; n < m_layers[layerNum].size() - 1; ++n) {
-			m_layers[layerNum][n].feedForward(prevLayer);
+	//For all neuron, change the weight
+	for (unsigned numLayer = 0; numLayer < m_layers.size() - 1; ++numLayer) {
+		for (unsigned numNeuron = 0; numNeuron < m_layers[numLayer].size() - 1; ++numNeuron) {
+			m_layers[numLayer][numNeuron].gradientStochastic(learningRate);
 		}
+
 	}
 }
-Net::Net(const vector<unsigned> &topology)
-{
-	unsigned numLayers = topology.size();
-	for (unsigned layerNum = 0; layerNum < numLayers; ++layerNum) {
-		m_layers.push_back(Layer());
-		// numOutputs of layer[i] is the numInputs of layer[i+1]
-		// numOutputs of last layer is 0
-		unsigned numOutputs = layerNum == topology.size() - 1 ? 0 : topology[layerNum + 1];
 
-		// We have made a new Layer, now fill it ith neurons, and
-		// add a bias neuron to the layer:
-		for (unsigned neuronNum = 0; neuronNum <= topology[layerNum]; ++neuronNum) {
-			m_layers.back().push_back(Neuron(numOutputs, neuronNum));
-			cout << "Made a Neuron!" << endl;
+
+void Net::keepOldWeights()
+{
+	//For all neuron, change weight for the old weight
+	for (unsigned numLayer = 0; numLayer < m_layers.size(); ++numLayer) {
+		for (unsigned numNeuron = 0; numNeuron < m_layers[numLayer].size(); ++numNeuron) {
+			m_layers[numLayer][numNeuron].keepOldWeights();
 		}
 
-		// Force the bias node's output value to 1.0. It's the last neuron created above
-		m_layers.back().back().setOutputVal(1.0);
 	}
 }

@@ -20,7 +20,7 @@ void chooseSituation(int* m_situation)
 	// Situation 2
 	cout << "\n----------- Situation 2 : Enter 2 -----------" << endl;
 	cout << "| Robot Model : wheelo, a simple wheel. A marker is added to spot the target position." << endl;
-	cout << "| Training Scenario : Train wheelo to go and stop at position x = 800 pixels." << endl;
+	cout << "| Training Scenario : Train wheelo to go and stop at position x = screenwidth/4 pixels." << endl;
 	cout << "| Topology : 2 3 1. " << endl;
 	cout << "| Network Input Value : wheeloo's angular velocity and wheeloo's position." << endl;
 	cout << "| Network Output Value : Used as wheeloo's angular velocity." << endl;
@@ -39,7 +39,7 @@ void situationRobotSetup(int* m_situation, Robot* m_robot, b2World* m_world, int
 	case 1:
 	default:
 	{
-		m_robot->addCircleComponent(*m_world, b2_dynamicBody, sf::Color::White, 100.f, 900.f, 120.f);
+		m_robot->addCircleComponent(*m_world, b2_dynamicBody, sf::Color::White, 100.f, m_screenHeight / 2.f - 300, 120.f);
 		break;
 	}
 	case 2:
