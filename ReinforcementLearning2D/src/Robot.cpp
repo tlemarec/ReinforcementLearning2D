@@ -3,7 +3,6 @@
 
 void Robot::addCircleComponent(b2World & world, b2BodyType bodyType, const sf::Color & color, float xPos, float yPos, float radiusInPixels)
 {
-	//components.push_back(std::shared_ptr<CircleWorldObject>( new CircleWorldObject(world, bodyType, color, xPos, yPos, radiusInPixels))); //First Option, make_shared is simpler (no new)
 	components.push_back(std::make_shared<CircleWorldObject>(CircleWorldObject(world, bodyType, color, xPos, yPos, radiusInPixels)));
 }
 
@@ -24,7 +23,7 @@ b2Body * Robot::getComponentBody(int i)
 
 void Robot::setMotorComponent(int i)
 {
-	motor = 1;
+	motor = i;
 }
 
 b2Body * Robot::getMotorBody()
@@ -50,7 +49,7 @@ void Robot::robotImageRender(sf::RenderWindow & renderWindow)
 
 std::vector<float> Robot::getRobotPosition() const
 {
-	b2Vec2 b2VectorPosition = components[0]->getPosition();
+	b2Vec2 b2VectorPosition = components[motor]->getPosition();
 	std::vector<float> vectorPosition(2,0.f);
 	vectorPosition[0] = b2VectorPosition.x;
 	vectorPosition[1] = b2VectorPosition.y;

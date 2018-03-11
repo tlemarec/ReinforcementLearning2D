@@ -41,7 +41,7 @@ int main(int argc, char** argv)
 	Robot wheeloo;
 	situationRobotSetup(&situation, &wheeloo, &world, screenWidth, screenHeight);
 		
-	// Instanciate Neural Network
+	// Instanciate the Neural Network with the topology defined in the choosen situation
 	std::vector<unsigned> topology;
 	int trainingPassCap;
 	int trainingPassCount = 0;
@@ -49,7 +49,7 @@ int main(int argc, char** argv)
 	vector<double> inputVals(topology[0]), targetVals(topology.back()), resultVals(topology.back());
 	Net myNet(topology);
 
-	// Create output file to store learning data
+	// Create output file to store the learning data, directory : 'ReinforcementLearning2D\ReinforcementLearning2D\DataOutput.txt'
 	std::ofstream outputFile("DataOutput.txt", ios::out);
 	assert(outputFile.is_open());
 

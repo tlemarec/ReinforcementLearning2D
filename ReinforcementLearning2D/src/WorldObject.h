@@ -8,14 +8,13 @@
 
 #define SCALE 30.f
 
+//Link a b2Body with an SFML shape. Mother class of various variation of WorldObject. Each variation has 2 attribute : One b2Body and one SFML Shape.
 class WorldObject
 {
 protected:
 	b2Body * physicalBody;
 
 public:
-	static enum ObjectType { Dynamic, Static };
-
 	WorldObject(b2World& world, b2BodyType bodyType, float xPos = 0.f, float yPos = 0.f)
 	{
 		b2BodyDef bodyDef;
@@ -25,17 +24,25 @@ public:
 		physicalBody = world.CreateBody(&bodyDef);
 	}
 
+	//Update the position of the SFML Shape. Function defined in all class inheriting from WorldObject.
 	virtual void positionUpdate() = 0;
 
+	//Render the SFML Shape.
 	virtual void imageRender(sf::RenderWindow& renderWindow) = 0;
 
-	b2Vec2 getPosition();
-
+	//Send on the 'cout' stream, the position of the b2Body.
 	void printPosition(std::string name);
 
+	//-------Getter-----------
+
+	//Get the position of the b2Body
+	b2Vec2 getPosition();
+
+	//Get the b2Body
 	b2Body* getPhysicalBody();
 };
 
+//Inherit from WorldObject, add an SFML shape of type : Convex.
 class ConvexWorldObject : public WorldObject
 {
 private:
@@ -73,11 +80,14 @@ public:
 		}
 	}
 
+	//Update the position of the SFML Shape.
 	virtual void positionUpdate();
 
+	//Render the SFML Shape.
 	virtual void imageRender(sf::RenderWindow& renderWindow);
 };
 
+//Inherit from WorldObject, add an SFML shape of type : Circle.
 class CircleWorldObject : public WorldObject
 {
 private:
@@ -110,11 +120,14 @@ public:
 		positionUpdate();
 	}
 
+	//Update the position of the SFML Shape.
 	virtual void positionUpdate();
 
+	//Render the SFML Shape.
 	virtual void imageRender(sf::RenderWindow& renderWindow);
 };
 
+//Inherit from WorldObject, add an SFML shape of type : Rectangle.
 class RectangleWorldObject : public WorldObject
 {
 private:
@@ -141,8 +154,10 @@ public:
 		positionUpdate();
 	}
 
+	//Update the position of the SFML Shape.
 	virtual void positionUpdate();
 
+	//Render the SFML Shape.
 	virtual void imageRender(sf::RenderWindow& renderWindow);
 };
 #endif

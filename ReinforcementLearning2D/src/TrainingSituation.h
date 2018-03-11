@@ -4,6 +4,7 @@
 #include "Robot.h"
 using namespace std;
 
+//Allow the creation and choice by the user of a training situation : Robot Model, Objectif (scenario), topology of the net, Input and Output value of the net.
 void chooseSituation(int* m_situation)
 {
 	cout << "\n Choose one of the training situation :" << endl;
@@ -32,6 +33,7 @@ void chooseSituation(int* m_situation)
 
 }
 
+//Instanciate the robot according to the choosen situation.
 void situationRobotSetup(int* m_situation, Robot* m_robot, b2World* m_world, int m_screenWidth, int m_screenHeight)
 {
 	switch (*m_situation)
@@ -44,7 +46,7 @@ void situationRobotSetup(int* m_situation, Robot* m_robot, b2World* m_world, int
 	}
 	case 2:
 	{
-		m_robot->addCircleComponent(*m_world, b2_dynamicBody, sf::Color::White, 100.f, m_screenHeight / 2.f - 300, 120.f);
+		m_robot->addCircleComponent(*m_world, b2_dynamicBody, sf::Color::White, 1660.f, m_screenHeight / 2.f - 300, 120.f);
 		m_robot->addRectangleComponent(*m_world, b2_staticBody, sf::Color::White, m_screenWidth / 4.f, m_screenHeight / 2.f - 300, 10.f, 50.f);
 		break;
 	}
@@ -54,6 +56,7 @@ void situationRobotSetup(int* m_situation, Robot* m_robot, b2World* m_world, int
 	m_robot->addRectangleComponent(*m_world, b2_staticBody, sf::Color::White, m_screenWidth / 4.f, m_screenHeight / 2.f, m_screenWidth, 50.f); 
 }
 
+//Setup the topology of the Net according to the choosen situation.
 void situationTopologySetup(int* m_situation, vector<unsigned>* m_netTopology, int* m_trainingPassCap)
 {
 	switch (*m_situation)
@@ -74,6 +77,7 @@ void situationTopologySetup(int* m_situation, vector<unsigned>* m_netTopology, i
 	}
 }
 
+//Generate the Input and Target value of the Net before a learning pass, according to the choosen situation.
 void situationTrainingData(int* m_situation, vector<double>* m_inputVals, vector<double>* m_targetVals, vector<double>* m_resultVals, Robot* m_robot, int* m_screenWidth)
 {
 	switch (*m_situation)
