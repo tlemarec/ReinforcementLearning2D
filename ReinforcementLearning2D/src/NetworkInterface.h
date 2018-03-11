@@ -10,16 +10,26 @@ void TrainingPass(int* m_trainingPassCount, Net* m_myNet, vector<unsigned>* m_ne
 	(*m_trainingPassCount)++;
 	
 	// Get new input data and feed it forward:
-	assert(m_inputVals->size() == (*m_netTopology)[0]);
-	m_myNet->feedForward(*m_inputVals);
+	try
+	{
+		if (m_inputVals->size() != (*m_netTopology)[0])
+			throw std::string("Error : inputVals and first layer must have same length");
+		else
+			m_myNet->feedForward(*m_inputVals);
 
-	// Collect the net's actual results:
-	m_myNet->getResults(*m_resultVals);
+		// Collect the net's actual results:
+		m_myNet->getResults(*m_resultVals);
 
-	// Train the net what the outputs should have been:
-	assert(m_targetVals->size() == m_netTopology->back());
-	m_myNet->backProp(*m_targetVals);
-
+		// Train the net what the outputs should have been:
+		if (m_targetVals->size() != m_netTopology->back())
+			throw std::string("Error : targetVals and last layer must have same length");
+		else
+				m_myNet->backProp(*m_targetVals);
+	}
+	catch (string const& error)
+	{
+		std::cerr << error << std::endl;
+	}
 	//Store learning data
 	dataOutput(m_outputFile, *m_myNet, *m_trainingPassCount, *m_inputVals, *m_resultVals, *m_targetVals);
 }
