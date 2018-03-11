@@ -73,7 +73,7 @@ void Neuron::gradientStochastic(double learningRate)
 
 	for (unsigned numOutput = 0; numOutput < m_outputWeights.size(); ++numOutput) {
 		m_outputWeights[numOutput].oldWeight = m_outputWeights[numOutput].weight;
-		m_outputWeights[numOutput].weight += (double(0.5) - rand() / double(RAND_MAX)) / 100; //modify this line to change the impact of random weight
+		m_outputWeights[numOutput].weight += (double(0.5) - rand() / double(RAND_MAX)*learningRate); //modify this line to change the impact of random weight
 	}
 }
 
